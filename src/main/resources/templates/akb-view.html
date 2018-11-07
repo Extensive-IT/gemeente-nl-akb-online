@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{generic :: htmlheader}"></head>
+
+<body>
+
+<div id="container" class="cls-container">
+
+    <div id="bg-overlay" class="bg-img" style="background-image: url('/resources/img/bg-img-1.jpg');"></div>
+
+    <div class="cls-content">
+        <div class="cls-content-sm panel">
+            <span th:text="'Message: ' + ${message}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

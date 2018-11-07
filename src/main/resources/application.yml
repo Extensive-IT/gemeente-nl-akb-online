@@ -1,12 +1,15 @@
-security:
-  basic:
-    enabled: false
+gemeente:
   oauth2:
     client:
       clientId: first-app
       clientSecret: '12345'
-      scope: apiX
-      accessTokenUri: http://gemeente-auth/oauth/access_token
+      accessTokenUri: http://gemeente-auth/oauth/token
       userAuthorizationUri: http://gemeente-auth/oauth/authorize
-      userInfoUri: http://gemeente-auth/auth/user/me
+      authenticationScheme: header
       clientAuthenticationScheme: header
+    resource:
+      userInfoUri: http://gemeente-auth/user/me
+
+  logging:
+    level:
+      org: INFO
