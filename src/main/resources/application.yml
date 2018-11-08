@@ -10,6 +10,11 @@ gemeente:
     resource:
       userInfoUri: http://gemeente-auth/user/me
 
-  logging:
-    level:
-      org: INFO
+server:
+  port: 8081
+
+logging:
+  level:
+    org:
+      apache:
+        http: DEBUG
