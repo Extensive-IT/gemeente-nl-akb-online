@@ -9,9 +9,15 @@
     <div id="bg-overlay" class="bg-img" style="background-image: url('/resources/img/bg-img-1.jpg');"></div>
 
     <div class="cls-content">
-        <div class="cls-content-sm panel">
-            <span th:text="'Message: ' + ${message}"></span>
-        </div>
+        <span th:text="'Message: ' + ${message}"></span>
+
+        <table>
+        <th:block th:each="donation : ${donations}">
+            <tr>
+                <td th:text="${donation}">Donatie</td>
+            </tr>
+        </th:block>
+        </table>
     </div>
 </div>
 </body>
