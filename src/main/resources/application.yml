@@ -10,6 +10,16 @@ gemeente:
     resource:
       userInfoUri: http://gemeente-auth/user/me
 
+datasource:
+  akb:
+    type: com.zaxxer.hikari.HikariDataSource
+    jdbc-url: jdbc:mysql://db/gemeente-akb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 'gemeente-akb'
+    password: 'gemeente-akb'
+    hikari:
+      idle-timeout: 10000
+
 server:
   port: 8081
 
