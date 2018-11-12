@@ -20,6 +20,27 @@ datasource:
     hikari:
       idle-timeout: 10000
 
+content:
+  resources:
+    directory: /home/jelle/Environment/
+  pages:
+    pages[0]:
+      id: welcome
+      title: Welkom
+      footer: '&copy; Ichthus 2018'
+      introduction: AKB 2019 is weer begonnen! U doet toch ook mee?!
+      content: De actie kerkbalans (AKB) is de jaarlijks actie van de PKN. Ook als wijkgemeente Ichthus doen we hieraan mee en hiermee worden grotendeels de jaarlijkse begroting bekostigd.
+    pages[1]:
+      id: give
+      title: Kerkbalans 2019
+      footer: '&copy; Ichthus 2018'
+      introduction: Bedankt dat u overweegt ook dit jaar de wijkgemeente Ichthus te ondersteunen!
+      content: Hieronder kunt u aangeven welk bedrag u wilt toezeggen. Het bedrag is het totale bedrage. Als u maandelijks wilt betalen, kies dan de maanden waarin u wilt betalen. Het bedrag wordt dan evenredig verdeeld.
+    pages[2]:
+      id: default
+      title: Default
+      footer: '&copy; Ichthus 2018'
+
 server:
   port: 8081
 

@@ -17,22 +17,36 @@ public class DefaultController {
     @Autowired
     private AkbService akbService;
 
-    @Value("${welcome.message:test}")
-    private String message = "Hello World";
+    @Autowired
+    private ContentConfiguration contentConfiguration;
+
+    @Value("${content.default.footer:}")
+    private String footer = "";
+
+    @Value("${content.akb.title:AKB}")
+    private String akbTitle = "";
+
+    @Value("${content.default.title:Welcome}")
+    private String defaultTitle = "";
 
     @RequestMapping("/")
-    public String welcome(Map<String, Object> model) {
-        model.put("message", this.message);
-        return "welcome";
+    public String index(Map<String, Object> model) {
+        return welcome(model);
     }
 
-    @RequestMapping("/akb-view")
-    public String showCurrentAkb(Map<String, Object> model) {
-        model.put("message", this.message);
+    @RequestMapping("/akb/welcome")
+    public String welcome(Map<String, Object> model) {
+        model.put("page", contentConfiguration.getById("welcome").get());
+        return "akb-welcome";
+    }
+
+    @RequestMapping("/akb/give")
+    public String give(Map<String, Object> model) {
+        model.put("page", contentConfiguration.getById("give").get());
         final List<AkbDonation> donations = this.akbService.retrieveAkbDonations();
         donations.addAll(this.akbService.retrieveAkbDonations(2018));
         model.put("donations", donations);
-        return "akb-view";
+        return "akb-give";
     }
 
     @RequestMapping("/user")

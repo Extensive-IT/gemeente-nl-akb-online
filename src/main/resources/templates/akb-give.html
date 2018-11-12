@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:replace="~{generic :: htmlheader}"></head>
+    <body>
+        <header th:replace="~{generic :: navigation}"></header>
+
+        <!-- Content -->
+        <main role="main" class="container">
+            <h1 class="mt-5" th:text="${page.title}"></h1>
+            <p class="lead" th:text="${page.introduction}?: ''"></p>
+            <p th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
+            <!--
+                <th:block th:each="donation : ${donations}">
+                    <span th:text="${donation}">Donatie</span>
+                </th:block> -->
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted" th:utext="${page.footer}?: ''"></span>
+            </div>
+        </footer>
+    </body>
+</html>

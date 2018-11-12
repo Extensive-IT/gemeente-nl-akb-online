@@ -27,18 +27,23 @@ import javax.servlet.Filter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String LOGIN_GEMEENTE = "/login/gemeente";
+
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
 
-    //@Override
+    /**
+     * Spring Security should completely ignore URLs starting with /resources/, /external/ or /favicon
+     * @param web
+     * @throws Exception
+     */
+    @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**", "/favicon.ico");
-        // Spring Security should completely ignore URLs starting with /resources/
+        web.ignoring().antMatchers("/resources/**", "/external/**", "/favicon.ico");
     }
 
-    //@Override
+    @Override
     public void configure(final HttpSecurity http) throws Exception {
-        http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll().anyRequest()
+        http.antMatcher("/**").authorizeRequests().antMatchers("/", "/akb/welcome", "/login**", "/webjars/**", "/error**").permitAll().anyRequest()
                 .authenticated().and().exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint(LOGIN_GEMEENTE)).and().logout()
                 .logoutSuccessUrl("/").permitAll().and().csrf()
