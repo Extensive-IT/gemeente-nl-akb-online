@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.util.List;
@@ -46,7 +47,16 @@ public class DefaultController {
         final List<AkbDonation> donations = this.akbService.retrieveAkbDonations();
         donations.addAll(this.akbService.retrieveAkbDonations(2018));
         model.put("donations", donations);
-        return "akb-give";
+        return "akb-give-step1";
+    }
+
+    @RequestMapping(value = "/akb/give", method = RequestMethod.POST)
+    public String step1(Map<String, Object> model) {
+        model.put("page", contentConfiguration.getById("give").get());
+        final List<AkbDonation> donations = this.akbService.retrieveAkbDonations();
+        donations.addAll(this.akbService.retrieveAkbDonations(2018));
+        model.put("donations", donations);
+        return "akb-give-step2";
     }
 
     @RequestMapping("/user")
