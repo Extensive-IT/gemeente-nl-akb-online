@@ -14,55 +14,59 @@
                     <span th:text="${donation}">Donatie</span>
                 </th:block> -->
 
-            <form method="post" th:action="@{/akb/give}">
+            <form method="post" th:action="@{/akb/give-step1}" th:object="${akbDonationStep1}">
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <strong>Vult u alstublieft alle velden in</strong>
+                </div>
+
                 <div class="form-group">
                     <label for="totalAmount">Voor de actie kerkbalans zeg ik een bedrag toe van (EUR):</label>
-                    <input id="totalAmount" type="number" class="form-control" min="0.00" step="1.00" value="0.00" placeholder="Bedrag">
+                    <input id="totalAmount" type="number" th:field="*{amount}" class="form-control" min="0.00" step="1.00" value="0.00" placeholder="Bedrag" />
                 </div>
                 <div class="form-group">
                     <label>Geef aan in welke maanden u het bedrag wilt betalen:</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="FEBRUARY" name="paymentMonths" id="paymentMonthsFebruary">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="FEBRUARY" name="paymentMonths" id="paymentMonthsFebruary" />
                         <label class="form-check-label" for="paymentMonthsFebruary">Februari</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="MARCH" name="paymentMonths" id="paymentMonthsMarch">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="MARCH" name="paymentMonths" id="paymentMonthsMarch" />
                         <label class="form-check-label" for="paymentMonthsMarch">Maart</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="APRIL" name="paymentMonths" id="paymentMonthsApril">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="APRIL" name="paymentMonths" id="paymentMonthsApril" />
                         <label class="form-check-label" for="paymentMonthsApril">April</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="MAY" name="paymentMonths" id="paymentMonthsMay">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="MAY" name="paymentMonths" id="paymentMonthsMay" />
                         <label class="form-check-label" for="paymentMonthsMay">Mei</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="JUNE" name="paymentMonths" id="paymentMonthsJune">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="JUNE" name="paymentMonths" id="paymentMonthsJune" />
                         <label class="form-check-label" for="paymentMonthsJune">Juni</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="JULY" name="paymentMonths" id="paymentMonthsJuly">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="JULY" name="paymentMonths" id="paymentMonthsJuly" />
                         <label class="form-check-label" for="paymentMonthsJuly">Juli</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="AUGUST" name="paymentMonths" id="paymentMonthsAugust">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="AUGUST" name="paymentMonths" id="paymentMonthsAugust" />
                         <label class="form-check-label" for="paymentMonthsAugust">Augustus</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="SEPTEMBER" name="paymentMonths" id="paymentMonthsSeptember">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="SEPTEMBER" name="paymentMonths" id="paymentMonthsSeptember" />
                         <label class="form-check-label" for="paymentMonthsSeptember">September</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="OCTOBER" name="paymentMonths" id="paymentMonthsOctober">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="OCTOBER" name="paymentMonths" id="paymentMonthsOctober" />
                         <label class="form-check-label" for="paymentMonthsOctober">Oktober</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="NOVEMBER" name="paymentMonths" id="paymentMonthsNovember">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="NOVEMBER" name="paymentMonths" id="paymentMonthsNovember" />
                         <label class="form-check-label" for="paymentMonthsNovember">November</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="DECEMBER" name="paymentMonths" id="paymentMonthsDecember">
+                        <input class="form-check-input" type="checkbox" th:field="*{paymentMonths}" th:value="DECEMBER" name="paymentMonths" id="paymentMonthsDecember" />
                         <label class="form-check-label" for="paymentMonthsDecember">December</label>
                     </div>
                 </div>
@@ -70,11 +74,11 @@
                 <div class="form-group">
                     <label>Hoe betaalt u uw bijdrage?</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeManual" value="BANK_TRANSFER">
+                        <input class="form-check-input" type="radio" th:field="*{paymentType}" th:value="BANK_TRANSFER" name="paymentType" id="paymentTypeManual" />
                         <label class="form-check-label" for="paymentTypeManual">Ik geef zelf opdracht aan mijn bank</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeAutomatic" value="BANK_AUTOMATIC" checked>
+                        <input class="form-check-input" type="radio" th:field="*{paymentType}" th:value="BANK_AUTOMATIC" name="paymentType" id="paymentTypeAutomatic" />
                         <label class="form-check-label" for="paymentTypeAutomatic">Per automatische incasso</label>
                     </div>
                 </div>
