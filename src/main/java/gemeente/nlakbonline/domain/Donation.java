@@ -9,6 +9,10 @@ public class Donation {
         this.amount = amount;
     }
 
+    public double getAmount() {
+        return this.amount;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Donation.class.getSimpleName() + "[", "]")

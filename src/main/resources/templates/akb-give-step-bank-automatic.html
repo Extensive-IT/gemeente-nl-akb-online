@@ -8,6 +8,10 @@
         <main role="main" class="container">
             <h1 class="mt-5" th:text="${page.title}"></h1>
             <p class="lead" th:text="${page.introduction}?: ''"></p>
+            <!--
+                <th:block th:each="donation : ${donations}">
+                    <span th:text="${donation}">Donatie</span>
+                </th:block> -->
 
             <form method="post"  th:action="@{/akb/give-step2}" th:object="${akbDonationStep2}">
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
@@ -16,26 +20,22 @@
 
                 <div class="alert alert-success" role="alert">
                     <h4 th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></h4>
-                    <p>
-                        <span th:text="${akbDonationStep1.akbPersonRegistration.salutation}" /><br />
-                        <span th:text="${akbDonationStep1.akbPersonRegistration.address}" />
-                        <span th:text="${akbDonationStep1.akbPersonRegistration.postalCode}" />&nbsp;<span th:text="${akbDonationStep1.akbPersonRegistration.city}" />
-                    </p>
+                    <p>Bedrag (EUR): <span th:text="${#numbers.formatDecimal(akbDonationStep1.amount, 1, 'POINT', 2, 'COMMA')}" /></p>
                     <table>
-                        <tr><th>Bedrag (EUR):</th><td th:text="${#numbers.formatDecimal(akbDonationStep1.amount, 1, 'POINT', 2, 'COMMA')}" /></tr>
-                        <tr><th>Registratienummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.registrationNumber}" /></tr>
-                        <tr><th>Uw IBAN-nummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.bankAccountNumber}" /></tr>
                         <th:block th:each="month : ${akbDonationStep1.allMonths}">
                             <tr><th th:text="${month}"></th><td style="text-align: right;" th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
                         </th:block>
                     </table>
                 </div>
 
-                <h4>Overmaken</h4>
+                <h2>SEPA, doorlopende machtiging</h2>
                 <p>
-                Wilt u uw bijdrage overmaken naar rekeningnummer <th:span th:text="${akbDonationStep2.paymentInformation.bankAccountNumber}" /> ten
-                name van <th:span th:text="${akbDonationStep2.paymentInformation.creditorName}" /> en niet naar een ander nummer van de
-                    kerk. Bij betalingen uw Registratienummer <th:span th:text="${akbDonationStep2.paymentInformation.reference}" /> vermelden alstublieft.</p>
+                    Door ondertekening van dit formulier geeft u toestemming aan het <th:span th:text="${akbDonationStep2.paymentInformation.creditorName}" />
+                    om het door u aangegeven bedrag te incasseren voor <th:span th:text="${akbDonationStep2.paymentInformation.paymentReason}" />.<br /><br />Wij zullen de bedragen
+                    rond de <th:span th:text="${akbDonationStep2.paymentInformation.dayOfMonth}" />e van elke gekozen maand van uw rekening afschrijven.<br />
+                    Het incassant ID is <th:span th:text="${akbDonationStep2.paymentInformation.creditorId}" />.<br />
+                    Het kenmerk van de machtiging is <th:span th:text="${akbDonationStep2.paymentInformation.mandateReference}" />.</p>
+
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" th:field="*{agreePrivacyTerms}"
@@ -44,7 +44,7 @@
                             voorwaarden</label>
                     </div>
                 </div>
-                <br /><br />
+
                 <a th:href="@{/akb/give}" class="btn btn-default">Wijzig bijdrage</a>
                 <button type="submit" class="btn btn-primary">Akkoord</button><br />
             </form>

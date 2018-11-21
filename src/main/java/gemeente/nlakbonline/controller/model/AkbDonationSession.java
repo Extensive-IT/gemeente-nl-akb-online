@@ -42,4 +42,8 @@ public class AkbDonationSession {
     public void reset() {
         this.setAkbDonationStep1(null);
     }
+
+    public boolean isReadyForStep2() {
+        return this.getAkbDonationStep1().isComplete();
+    }
 }

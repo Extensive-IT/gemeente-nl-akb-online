@@ -59,17 +59,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
+    @Bean
+    public OAuth2RestTemplate oAuth2RestTemplate() {
+        return new OAuth2RestTemplate(gemeente(), oauth2ClientContext);
+    }
+
     private Filter ssoFilter() {
-        OAuth2ClientAuthenticationProcessingFilter facebookFilter = new OAuth2ClientAuthenticationProcessingFilter(
+        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(
                 LOGIN_GEMEENTE);
-        OAuth2RestTemplate facebookTemplate = new OAuth2RestTemplate(gemeente(), oauth2ClientContext);
-        facebookFilter.setRestTemplate(facebookTemplate);
+        OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(gemeente(), oauth2ClientContext);
+        filter.setRestTemplate(restTemplate);
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(gemeenteResource().getUserInfoUri(),
                 gemeente().getClientId());
-        tokenServices.setRestTemplate(facebookTemplate);
-        facebookFilter.setTokenServices(
+        tokenServices.setRestTemplate(restTemplate);
+        filter.setTokenServices(
                 new UserInfoTokenServices(gemeenteResource().getUserInfoUri(), gemeente().getClientId()));
-        return facebookFilter;
+        return filter;
     }
 
     @Bean

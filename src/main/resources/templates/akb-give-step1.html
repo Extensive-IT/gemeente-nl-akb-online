@@ -9,15 +9,17 @@
             <h1 class="mt-5" th:text="${page.title}"></h1>
             <p class="lead" th:text="${page.introduction}?: ''"></p>
             <p th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
-            <!--
-                <th:block th:each="donation : ${donations}">
-                    <span th:text="${donation}">Donatie</span>
-                </th:block> -->
 
             <form method="post" th:action="@{/akb/give-step1}" th:object="${akbDonationStep1}">
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                     <strong>Vult u alstublieft alle velden in</strong>
                 </div>
+
+                <th:block th:if="${donation != null}">
+                    <div class="alert alert-info" role="alert">
+                        Vorig jaar was het volgende bedrag toegezegd (EUR): <span th:text="${#numbers.formatDecimal(donation.amount, 1, 'POINT', 2, 'COMMA')}" />
+                    </div>
+                </th:block>
 
                 <div class="form-group">
                     <label for="totalAmount">Voor de actie kerkbalans zeg ik een bedrag toe van (EUR):</label>

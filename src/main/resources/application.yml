@@ -3,12 +3,16 @@ gemeente:
     client:
       clientId: first-app
       clientSecret: '12345'
-      accessTokenUri: http://gemeente-auth:8080/oauth/token
-      userAuthorizationUri: http://gemeente-auth:8080/oauth/authorize
+      accessTokenUri: http://gemeente-auth/oauth/token
+      userAuthorizationUri: http://gemeente-auth/oauth/authorize
       authenticationScheme: header
       clientAuthenticationScheme: header
     resource:
-      userInfoUri: http://gemeente-auth:8080/user/me
+      userInfoUri: http://gemeente-auth/user/me
+
+account:
+  service:
+    uri: http://gemeente-auth/user/account
 
 datasource:
   akb:
@@ -23,6 +27,15 @@ datasource:
 content:
   resources:
     directory: /home/jelle/Environment/
+  automatic-payment-information:
+    creditorName: 'TestCreditor at Amsterdam'
+    creditorId: NL1234567890
+    dayOfMonth: 25
+    mandateReferencePrefix: 'RET'
+    mandateReferencePostfix: 20187654
+  manual-payment-information:
+    creditorName: 'TestCreditor at Amsterdam'
+    bankAccountNumber: 'NL12 ABNA 0123 4567 89'
   pages:
     pages[0]:
       id: welcome
@@ -41,17 +54,13 @@ content:
       title: Kerkbalans 2019
       footer: '&copy; Ichthus 2018'
       introduction: U wilt betalen per bankopdracht
-      content: Controleer hieronder uw bijdrage. Wilt u uw bijdrage over maken naar rekeningnummer ${bankAccount} ten
-        name van ${organizationName} en niet naar een ander nummer van de
-        kerk. Bij betalingen uw Registratienummer vermelden alstublieft.
+      content: Controleer hieronder uw bijdrage.
     pages[3]:
       id: give-bank-automatic
       title: Kerkbalans 2019
       footer: '&copy; Ichthus 2018'
       introduction: U wilt betalen per automatische incasso
-      content: Controleer hieronder uw bijdrage. U vult dan onderstaande machtiging in en wij
-        incasseren voor u op de door u aangegeven
-        maanden.
+      content: Controleer hieronder uw bijdrage.
     pages[4]:
       id: default
       title: Default
