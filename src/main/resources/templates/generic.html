@@ -30,4 +30,21 @@
             </div>
         </nav>
     </header>
+
+    <div th:fragment="akb-give-step-overview" class="alert alert-success" role="alert">
+        <h4 th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></h4>
+        <p>
+            <span th:text="${akbDonationStep1.akbPersonRegistration.salutation}" /><br />
+            <span th:text="${akbDonationStep1.akbPersonRegistration.address}" />
+            <span th:text="${akbDonationStep1.akbPersonRegistration.postalCode}" />&nbsp;<span th:text="${akbDonationStep1.akbPersonRegistration.city}" />
+        </p>
+        <table>
+            <tr><th>Bedrag (EUR):</th><td th:text="${#numbers.formatDecimal(akbDonationStep1.amount, 1, 'POINT', 2, 'COMMA')}" /></tr>
+            <tr><th>Registratienummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.registrationNumber}" /></tr>
+            <tr><th>Uw IBAN-nummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.bankAccountNumber}" /></tr>
+            <th:block th:each="month : ${akbDonationStep1.allMonths}">
+                <tr><th th:text="${month}"></th><td style="text-align: right;" th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
+            </th:block>
+        </table>
+    </div>
 </html>

@@ -3,16 +3,16 @@ gemeente:
     client:
       clientId: first-app
       clientSecret: '12345'
-      accessTokenUri: http://gemeente-auth/oauth/token
-      userAuthorizationUri: http://gemeente-auth/oauth/authorize
+      accessTokenUri: http://gemeente-auth:8080/oauth/token
+      userAuthorizationUri: http://gemeente-auth:8080/oauth/authorize
       authenticationScheme: header
       clientAuthenticationScheme: header
     resource:
-      userInfoUri: http://gemeente-auth/user/me
+      userInfoUri: http://gemeente-auth:8080/user/me
 
 account:
   service:
-    uri: http://gemeente-auth/user/account
+    uri: http://gemeente-auth:8080/user/account
 
 datasource:
   akb:

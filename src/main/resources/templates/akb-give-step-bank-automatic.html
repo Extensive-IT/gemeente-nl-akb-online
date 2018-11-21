@@ -18,15 +18,7 @@
                     <strong>Wilt u akkoord gaan met de voorwaarden?</strong>
                 </div>
 
-                <div class="alert alert-success" role="alert">
-                    <h4 th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></h4>
-                    <p>Bedrag (EUR): <span th:text="${#numbers.formatDecimal(akbDonationStep1.amount, 1, 'POINT', 2, 'COMMA')}" /></p>
-                    <table>
-                        <th:block th:each="month : ${akbDonationStep1.allMonths}">
-                            <tr><th th:text="${month}"></th><td style="text-align: right;" th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
-                        </th:block>
-                    </table>
-                </div>
+                <div th:replace="~{generic :: akb-give-step-overview}"></div>
 
                 <h2>SEPA, doorlopende machtiging</h2>
                 <p>

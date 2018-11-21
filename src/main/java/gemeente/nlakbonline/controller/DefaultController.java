@@ -102,8 +102,9 @@ public class DefaultController {
         }
 
         final AkbDonationStep2 akbDonationStep2 = akbDonationSession.createOrReuseAkbDonationStep2();
-        final String akbRegistrationNumber = "REG";
-        akbDonationStep2.setPaymentInformation(createBankManualPaymentInformation(akbRegistrationNumber));
+        final AkbPersonRegistration akbPersonRegistration = createAkbPersonRegistration();
+        akbDonationSession.getAkbDonationStep1().setAkbPersonRegistration(akbPersonRegistration);
+        akbDonationStep2.setPaymentInformation(createBankManualPaymentInformation(akbPersonRegistration.getRegistrationNumber()));
         model.put("akbDonationStep1", akbDonationSession.getAkbDonationStep1());
         model.put("akbDonationStep2", akbDonationStep2);
         model.put("page", contentConfiguration.getById("give-bank-transfer").get());
@@ -117,11 +118,12 @@ public class DefaultController {
         }
 
         final Page page = contentConfiguration.getById("give-bank-automatic").get();
-        final String akbRegistrationNumber = "REG";
         final String paymentReason = page.getTitle();
 
         final AkbDonationStep2 akbDonationStep2 = akbDonationSession.createOrReuseAkbDonationStep2();
-        akbDonationStep2.setPaymentInformation(createBankAutomaticPaymentInformation(akbRegistrationNumber, paymentReason));
+        final AkbPersonRegistration akbPersonRegistration = createAkbPersonRegistration();
+        akbDonationSession.getAkbDonationStep1().setAkbPersonRegistration(akbPersonRegistration);
+        akbDonationStep2.setPaymentInformation(createBankAutomaticPaymentInformation(akbPersonRegistration.getRegistrationNumber(), paymentReason));
         model.put("akbDonationStep1", akbDonationSession.getAkbDonationStep1());
         model.put("akbDonationStep2", akbDonationStep2);
         model.put("page", page);
@@ -167,7 +169,13 @@ public class DefaultController {
 
     AkbPersonRegistration createAkbPersonRegistration() {
         final AkbPersonRegistration result = new AkbPersonRegistration();
-        final String result2 = (String)accountService.getAccountInformation();
+        accountService.getAccountInformation().ifPresent(account -> {
+            result.setAddress(account.getAddress().getStreet());
+            result.setPostalCode(account.getAddress().getPostalCode());
+            result.setCity(account.getAddress().getCity());
+            result.setRegistrationNumber(account.getRegistrationReferenceId());
+            result.setSalutation(account.getFullName());
+        });
         return result;
     }
 
