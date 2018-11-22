@@ -26,6 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/akb/give}">Uw bijdrage <span class="sr-only">(current)</span></a>
                     </li>
+                    <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/akb/admin/createRegistration}">Nieuwe registratie <span class="sr-only">(current)</span></a>
+                    </li>
                 </ul>
             </div>
         </nav>
