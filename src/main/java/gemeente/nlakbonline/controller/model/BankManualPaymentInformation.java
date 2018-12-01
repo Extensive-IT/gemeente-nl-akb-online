@@ -1,5 +1,7 @@
 package gemeente.nlakbonline.controller.model;
 
+import gemeente.nlakbonline.domain.PaymentType;
+
 public class BankManualPaymentInformation extends PaymentInformation {
 
     private String bankAccountNumber;

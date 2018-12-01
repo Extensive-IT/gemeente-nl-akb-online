@@ -1,4 +1,4 @@
-package gemeente.nlakbonline.controller.model;
+package gemeente.nlakbonline.domain;
 
 public enum PaymentType {
     /**

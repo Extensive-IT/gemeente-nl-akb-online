@@ -6,9 +6,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-INSERT INTO `akb_donation` (`user`, `year`, `amount`, `payment_months`) VALUES
-('test', 2017, 500.00, 'FEBRUARY'),
-('test', 2018, 515.25, 'FEBRUARY,MARCH');
+INSERT INTO `akb_donation` (`account_id`, `year`, `amount`, `payment_type`, `payment_months`) VALUES
+(uuid(), 2017, 500.00, 'BANK_AUTOMATIC', 'FEBRUARY'),
+(uuid(), 2018, 515.25, 'BANK_AUTOMATIC', 'FEBRUARY,MARCH');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

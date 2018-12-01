@@ -1,9 +1,9 @@
 package gemeente.nlakbonline.service;
 
-import com.google.common.collect.Lists;
 import gemeente.nlakbonline.AuthenticationFacade;
 import gemeente.nlakbonline.domain.AkbDonation;
 import gemeente.nlakbonline.domain.AkbDonationId;
+import gemeente.nlakbonline.domain.PaymentType;
 import gemeente.nlakbonline.repository.AkbDonationDatabaseObject;
 import gemeente.nlakbonline.repository.AkbDonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static gemeente.nlakbonline.repository.AkbDonationDatabaseObject.convertPaymentMonths;
 
 @Service
 public class AkbService {
@@ -21,22 +24,28 @@ public class AkbService {
     @Autowired
     private AkbDonationRepository akbDonationRepository;
 
-    public List<AkbDonation> retrieveAkbDonations() {
-        final String userName = this.authenticationFacade.getAuthentication().getName();
+    public List<AkbDonation> retrieveAkbDonations(String accountId) {
         final List<AkbDonation> result = new ArrayList<>();
-        akbDonationRepository.findByUser(userName).forEach(item -> result.add(from(item)));
+        akbDonationRepository.findByUser(accountId).forEach(item -> result.add(from(item)));
         return result;
     }
 
-    public List<AkbDonation> retrieveAkbDonations(int year) {
-        final String userName = this.authenticationFacade.getAuthentication().getName();
+    public List<AkbDonation> retrieveAkbDonations(String accountId, int year) {
         final List<AkbDonation> result = new ArrayList<>();
-        akbDonationRepository.findByUserAndYear(userName, year).forEach(item -> result.add(from(item)));
+        akbDonationRepository.findByUserAndYear(accountId, year).forEach(item -> result.add(from(item)));
         return result;
+    }
+
+    public void storeDonation(final AkbDonation akbDonation) {
+        akbDonationRepository.save(from(akbDonation));
     }
 
     private static AkbDonation from(final AkbDonationDatabaseObject databaseObject) {
-        final AkbDonationId id = new AkbDonationId(databaseObject.getUser(), databaseObject.getYear());
-        return new AkbDonation(id, databaseObject.getAmount(), databaseObject.getPaymentMonths());
+        final AkbDonationId id = new AkbDonationId(UUID.fromString(databaseObject.getAccountId()), databaseObject.getYear());
+        return new AkbDonation(id, databaseObject.getAmount(), PaymentType.valueOf(databaseObject.getPaymentType()), convertPaymentMonths(databaseObject.getPaymentMonths()));
+    }
+
+    private static AkbDonationDatabaseObject from(final AkbDonation akbDonation) {
+        return AkbDonationDatabaseObject.of(akbDonation.getId().getAccountId().toString(), akbDonation.getId().getYear(), akbDonation.getAmount(), akbDonation.getPaymentType().toString(), convertPaymentMonths(akbDonation.getPaymentMonths()));
     }
 }

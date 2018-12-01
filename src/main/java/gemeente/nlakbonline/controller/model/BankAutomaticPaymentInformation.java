@@ -1,5 +1,7 @@
 package gemeente.nlakbonline.controller.model;
 
+import gemeente.nlakbonline.domain.PaymentType;
+
 public class BankAutomaticPaymentInformation extends PaymentInformation {
 
     private String creditorName;

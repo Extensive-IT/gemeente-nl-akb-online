@@ -1,6 +1,9 @@
 package gemeente.nlakbonline.controller;
 
+import gemeente.authorization.api.Account;
 import gemeente.nlakbonline.controller.model.*;
+import gemeente.nlakbonline.domain.AkbDonation;
+import gemeente.nlakbonline.domain.AkbDonationId;
 import gemeente.nlakbonline.service.AccountService;
 import gemeente.nlakbonline.service.AkbService;
 import gemeente.nlakbonline.service.AutomaticPaymentInformationConfiguration;
@@ -9,14 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes({"akbDonationSession"})
@@ -46,30 +48,40 @@ public class DefaultController {
     @Value("${content.default.title:Welcome}")
     private String defaultTitle = "";
 
-    @RequestMapping("/")
+    @Value("${content.collection.year}")
+    private Integer collectionYear;
+
+    @GetMapping("/")
     public String index(Map<String, Object> model) {
         return welcome(model);
     }
 
-    @RequestMapping("/akb/welcome")
+    @GetMapping("/akb/welcome")
     public String welcome(Map<String, Object> model) {
         model.put("page", contentConfiguration.getById("welcome").get());
         return "akb-welcome";
     }
 
-    @RequestMapping("/akb/give")
+    @GetMapping("/akb/give")
     public String start(@ModelAttribute final AkbDonationSession akbDonationSession, Map<String, Object> model) {
+        final List<AkbDonation> donations =
+                this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear);
+        if (donations.size() > 0) {
+            return "redirect:/akb/already-finalized";
+        }
+
         final AkbDonationStep1 akbDonationStep1 = akbDonationSession.getAkbDonationStep1();
         akbDonationStep1.setAkbPersonRegistration(createAkbPersonRegistration());
         return showFirstGivePage(akbDonationSession.getAkbDonationStep1(), model);
     }
 
     private String showFirstGivePage(final AkbDonationStep1 akbDonationStep1, Map<String, Object> model) {
-        this.akbService.retrieveAkbDonations(2018).stream().findAny().ifPresent((akbDonation -> model.put("donation", akbDonation)));
+        this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear - 1).stream().findAny().ifPresent((akbDonation -> model.put("donation", akbDonation)));
         model.put("page", contentConfiguration.getById("give").get());
         model.put("akbDonationStep1", akbDonationStep1);
         return "akb-give-step1";
     }
+
     /**
      * Store first form in session and redirect user to next step
      *
@@ -78,7 +90,7 @@ public class DefaultController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/akb/give-step1", method = RequestMethod.POST)
+    @PostMapping(value = "/akb/give-step1")
     public String processFirstGivePage(@Valid @ModelAttribute final AkbDonationStep1 akbDonationStep1, BindingResult bindingResult, @ModelAttribute final AkbDonationSession akbDonationSession, Map<String, Object> model) {
         if (bindingResult.hasErrors()) {
             return showFirstGivePage(akbDonationStep1, model);
@@ -95,7 +107,7 @@ public class DefaultController {
         }
     }
 
-    @RequestMapping(value = "/akb/give-step-bank-transfer", method = RequestMethod.GET)
+    @GetMapping(value = "/akb/give-step-bank-transfer")
     public String stepBankTransfer(@ModelAttribute final AkbDonationSession akbDonationSession, Map<String, Object> model) {
         if (!akbDonationSession.isReadyForStep2()) {
             return "redirect:/akb/give";
@@ -111,7 +123,7 @@ public class DefaultController {
         return "akb-give-step-bank-transfer";
     }
 
-    @RequestMapping(value = "/akb/give-step-bank-automatic", method = RequestMethod.GET)
+    @GetMapping(value = "/akb/give-step-bank-automatic")
     public String stepBankAutomatic(@ModelAttribute final AkbDonationSession akbDonationSession, Map<String, Object> model) {
         if (!akbDonationSession.isReadyForStep2()) {
             return "redirect:/akb/give";
@@ -138,7 +150,7 @@ public class DefaultController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/akb/give-step2", method = RequestMethod.POST)
+    @PostMapping(value = "/akb/give-step2")
     public String stepFinal(@Valid @ModelAttribute final AkbDonationStep2 akbDonationStep2, BindingResult bindingResult, @ModelAttribute final AkbDonationSession akbDonationSession, Map<String, Object> model) {
         akbDonationSession.setAkbDonationStep2(akbDonationStep2);
         if (bindingResult.hasErrors()) {
@@ -153,8 +165,27 @@ public class DefaultController {
         }
 
         // Store donation
+        final AkbDonation akbDonation = createAkbDonation(akbDonationSession);
+        this.akbService.storeDonation(akbDonation);
 
-        return "redirect:/akb/welcome";
+        // Reset session
+        akbDonationSession.reset();
+        return "redirect:/akb/thanks";
+    }
+
+    @GetMapping("/akb/thanks")
+    public String showThanksPage(Map<String, Object> model) {
+        model.put("page", contentConfiguration.getById("thanks").get());
+        return "akb-thanks";
+    }
+
+    @GetMapping("/akb/already-finalized")
+    public String finalized(Map<String, Object> model) {
+        model.put("page", contentConfiguration.getById("finalized").get());
+        final List<AkbDonation> donations =
+                this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear);
+        model.put("donations", donations);
+        return "akb-finalized";
     }
 
     @ModelAttribute(value = "akbDonationSession")
@@ -195,5 +226,15 @@ public class DefaultController {
         result.setCreditorName(manualPaymentInformationConfiguration.getCreditorName());
         result.setReference(reference);
         return result;
+    }
+
+    AkbDonation createAkbDonation(final AkbDonationSession akbDonationSession) {
+        final Optional<Account> accountOptional = accountService.getAccountInformation();
+        if (accountOptional.isPresent()) {
+            final AkbDonationId id = new AkbDonationId(accountOptional.get().getId(), collectionYear);
+            final AkbDonation akbDonation = new AkbDonation(id, akbDonationSession.getAkbDonationStep1().getAmount(), akbDonationSession.getAkbDonationStep1().getPaymentType(), akbDonationSession.getAkbDonationStep1().getPaymentMonths());
+            return akbDonation;
+        }
+        throw new IllegalStateException("Cannot get account");
     }
 }

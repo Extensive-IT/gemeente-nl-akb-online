@@ -12,7 +12,6 @@ public class AkbDonationSession {
      */
     public AkbDonationSession() {
         final AkbDonationStep1 akbDonationStep1 = new AkbDonationStep1();
-        akbDonationStep1.setPaymentType(PaymentType.BANK_AUTOMATIC);
         this.setAkbDonationStep1(akbDonationStep1);
     }
 
@@ -40,7 +39,8 @@ public class AkbDonationSession {
     }
 
     public void reset() {
-        this.setAkbDonationStep1(null);
+        this.setAkbDonationStep1(new AkbDonationStep1());
+        this.setAkbDonationStep2(null);
     }
 
     public boolean isReadyForStep2() {

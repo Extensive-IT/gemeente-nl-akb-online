@@ -8,12 +8,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `akb_donation` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account_id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` smallint NOT NULL,
   `amount` decimal(8,2) NOT NULL,
+  `payment_type` varchar(24) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payment_months` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   primary key (`id`),
-  unique key(`user`, `year`)
+  unique key(`account_id`, `year`)
 ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

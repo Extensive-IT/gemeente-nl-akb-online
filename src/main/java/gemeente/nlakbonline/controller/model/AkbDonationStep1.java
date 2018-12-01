@@ -1,5 +1,7 @@
 package gemeente.nlakbonline.controller.model;
 
+import gemeente.nlakbonline.domain.PaymentType;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;

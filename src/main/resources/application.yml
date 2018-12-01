@@ -36,6 +36,8 @@ content:
   manual-payment-information:
     creditorName: 'TestCreditor at Amsterdam'
     bankAccountNumber: 'NL12 ABNA 0123 4567 89'
+  collection:
+    year: 2019
   pages:
     pages[0]:
       id: welcome
@@ -62,6 +64,18 @@ content:
       introduction: U wilt betalen per automatische incasso
       content: Controleer hieronder uw bijdrage.
     pages[4]:
+      id: thanks
+      title: Bedankt
+      introduction: Bedankt voor uw gift.
+      content: Mocht u nog vragen hebben of het e.e.a. willen corrigeren neem dan contact op met de kerkrentmeesters.
+      footer: '&copy; Ichthus 2018'
+    pages[5]:
+      id: finalized
+      title: Toekenning al reeds ingevuld
+      introduction: Bedankt voor uw gift. U heeft al reeds de toekenning ingevuld.
+      content: Mocht u nog vragen hebben of het e.e.a. willen corrigeren neem dan contact op met de kerkrentmeesters. Hieronder ziet u alsnog uw toekenningen.
+      footer: '&copy; Ichthus 2018'
+    pages[6]:
       id: default
       title: Default
       footer: '&copy; Ichthus 2018'
