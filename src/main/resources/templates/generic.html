@@ -46,7 +46,7 @@
             <tr><th>Registratienummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.registrationNumber}" /></tr>
             <tr><th>Uw IBAN-nummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.bankAccountNumber}" /></tr>
             <th:block th:each="month : ${akbDonationStep1.allMonths}">
-                <tr><th th:text="${month}"></th><td style="text-align: right;" th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
+                <tr><th th:text="#{month.__${month}__}"></th><td style="text-align: right;" th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
             </th:block>
         </table>
     </div>

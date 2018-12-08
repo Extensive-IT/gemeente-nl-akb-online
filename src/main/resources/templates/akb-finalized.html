@@ -13,8 +13,8 @@
             <table class="table">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col" class="text-xs-right">Jaar</th>
-                        <th scope="col" class="text-xs-right">Toekenning (EUR)</th>
+                        <th scope="col" class="text-right">Jaar</th>
+                        <th scope="col" class="text-right">Toekenning (EUR)</th>
                         <th scope="col">Betalingsmethode</th>
                         <th scope="col">Betaalmaanden</th>
                     </tr>
@@ -22,14 +22,14 @@
                 <tbody>
                     <th:block th:each="donation : ${donations}">
                         <tr>
-                            <td scope="row" th:text="${donation.id.year}" class="text-xs-right"></td>
+                            <td scope="row" th:text="${donation.id.year}" class="text-right"></td>
                             <td scope="row"
-                                th:text="${#numbers.formatDecimal(donation.amount, 1, 'POINT', 2, 'COMMA')}" class="text-xs-right"></td>
+                                th:text="${#numbers.formatDecimal(donation.amount, 1, 'POINT', 2, 'COMMA')}" class="text-right"></td>
                             <td scope="row"
-                                th:text="${donation.paymentType}"></td>
+                                th:text="#{paymentType.__${donation.paymentType}__}"></td>
                             <td scope="row">
                                 <th:block th:each="paymentMonth : ${donation.paymentMonths}">
-                                    <li scope="row" th:text="${paymentMonth}"/>
+                                    <li scope="row" th:text="#{month.__${paymentMonth}__}"/>
                                 </th:block>
                             </td>
                         </tr>
