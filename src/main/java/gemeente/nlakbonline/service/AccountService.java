@@ -22,4 +22,9 @@ public class AccountService {
         final AccountInformationResponse result = restOperations.getForObject(accountServiceUri, AccountInformationResponse.class);
         return Optional.ofNullable(result.getAccount());
     }
+
+    public Optional<Account> createAccount() {
+        //restOperations.postForEntity()
+        return Optional.empty();
+    }
 }
