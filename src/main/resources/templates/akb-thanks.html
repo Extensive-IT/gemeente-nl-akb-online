@@ -9,6 +9,15 @@
             <h1 class="mt-5" th:text="${page.title}"></h1>
             <p class="lead" th:text="${page.introduction}?: ''"></p>
             <p th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
+
+            <th:block if="${donation != null}">
+                <th:block th:switch="${donation.paymentType.name()}">
+                    <p th:case="'BANK_TRANSFER'">Wilt u uw bijdrage overmaken naar rekeningnummer <th:span th:text="${manualPaymentInformation.bankAccountNumber}" /> ten
+                        name van <th:span th:text="${manualPaymentInformation.creditorName}" /> en niet naar een ander nummer van de
+                        kerk. Bij betalingen uw Registratienummer <th:span th:text="${akbPersonRegistration.registrationNumber}" /> vermelden alstublieft.
+                    </p>
+                </th:block>
+            </th:block>
         </main>
 
         <footer class="footer">

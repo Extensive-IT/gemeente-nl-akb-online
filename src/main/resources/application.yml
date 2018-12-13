@@ -26,6 +26,7 @@ datasource:
 
 content:
   resources:
+    # Make sure it ends with '/'
     directory: /home/jelle/Environment/
   automatic-payment-information:
     creditorName: 'TestCreditor at Amsterdam'

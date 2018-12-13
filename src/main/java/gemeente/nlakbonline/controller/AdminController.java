@@ -41,7 +41,7 @@ public class AdminController {
 
         // accountService.getAccountInformation()
 
-        accountService.getAccountInformation()
+        // accountService.getAccountInformation()
         return "";
     }
 

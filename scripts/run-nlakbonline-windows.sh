@@ -7,8 +7,8 @@ fi
 
 docker run --name gemeente-nlakbonline \
     --link dev-mysql:db \
-    --link gemeente-auth:gemeente-auth \
+    --link proxy:gemeente-auth \
     -e VIRTUAL_HOST=gemeente-akb \
-    -v /opt/kerk/gemeente-akb/:/config \
-    -v /opt/kerk/content/:/external-data \
+    -v "C:\Environment\gemeente-nlakbonline\config":/config \
+    -v "C:\Environment\gemeente-nlakbonline\external-data":/external-data \
     -d gemeente/nlakbonline

@@ -176,6 +176,13 @@ public class DefaultController {
     @GetMapping("/akb/thanks")
     public String showThanksPage(Map<String, Object> model) {
         model.put("page", contentConfiguration.getById("thanks").get());
+        final List<AkbDonation> donations =
+                this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear);
+        if (!donations.isEmpty()) {
+            model.put("donation", donations.get(0));
+            model.put("manualPaymentInformation", this.manualPaymentInformationConfiguration);
+            model.put("akbPersonRegistration", createAkbPersonRegistration());
+        }
         return "akb-thanks";
     }
 
