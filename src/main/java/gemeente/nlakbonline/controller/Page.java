@@ -6,6 +6,7 @@ public class Page {
     private String footer;
     private String content;
     private String introduction;
+    private boolean htmlEncoded;
 
     public String getId() {
         return id;
@@ -45,5 +46,13 @@ public class Page {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+
+    public boolean isHtmlEncoded() {
+        return htmlEncoded;
+    }
+
+    public void setHtmlEncoded(final boolean htmlEncoded) {
+        this.htmlEncoded = htmlEncoded;
     }
 }

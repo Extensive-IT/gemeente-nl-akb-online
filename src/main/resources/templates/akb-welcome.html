@@ -8,11 +8,12 @@
         <main role="main" class="container">
             <h1 class="mt-5" th:text="${page.title}"></h1>
             <p class="lead" th:text="${page.introduction}?: ''"></p>
-            <p th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
-            <!--
-                <th:block th:each="donation : ${donations}">
-                    <span th:text="${donation}">Donatie</span>
-                </th:block> -->
+            <th:block th:if="${page.htmlEncoded == true}">
+                <p th:utext="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
+            </th:block>
+            <th:block th:if="${page.htmlEncoded == false}">
+                <p th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
+            </th:block>
 
             <p>Klik <a th:href="@{/akb/give}">hier</a> om uw bijdrage voor het nieuwe jaar op te geven.</p>
         </main>
