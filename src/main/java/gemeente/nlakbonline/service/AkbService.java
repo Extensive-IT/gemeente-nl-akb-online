@@ -36,6 +36,12 @@ public class AkbService {
         return result;
     }
 
+    public List<AkbDonation> retrieveAkbDonations(int year) {
+        final List<AkbDonation> result = new ArrayList<>();
+        akbDonationRepository.findByYear(year).forEach(item -> result.add(from(item)));
+        return result;
+    }
+
     public void storeDonation(final AkbDonation akbDonation) {
         akbDonationRepository.save(from(akbDonation));
     }

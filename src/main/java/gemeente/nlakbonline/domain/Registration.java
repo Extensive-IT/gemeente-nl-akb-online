@@ -1,51 +1,30 @@
-package gemeente.nlakbonline.controller.model;
-
-import gemeente.nlakbonline.domain.PaymentType;
+package gemeente.nlakbonline.domain;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
-public class  Registration {
+public class Registration {
 
-    @NotNull
-    @NotEmpty
     private String registrationNumber;
 
-    @NotNull
-    @NotEmpty
     private String salutation;
 
-    @NotNull
-    @NotEmpty
     private String street;
 
-    @NotNull
-    @NotEmpty
     private String postalCode;
 
-    @NotNull
-    @NotEmpty
     private String city;
 
-    @NotNull
-    @NotEmpty
-    private String country;
-
-    @NotNull
-    @NotEmpty
     private String email;
 
-    private Double previousYearAmount;
+    private String country;
 
-    private PaymentType previousYearPaymentType;
-
-    public PaymentType getPreviousYearPaymentType() {
-        return previousYearPaymentType;
+    public String getCountry() {
+        return country;
     }
 
-    public void setPreviousYearPaymentType(PaymentType previousYearPaymentType) {
-        this.previousYearPaymentType = previousYearPaymentType;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getRegistrationNumber() {
@@ -88,27 +67,11 @@ public class  Registration {
         this.city = city;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Double getPreviousYearAmount() {
-        return previousYearAmount;
-    }
-
-    public void setPreviousYearAmount(Double previousYearAmount) {
-        this.previousYearAmount = previousYearAmount;
     }
 }

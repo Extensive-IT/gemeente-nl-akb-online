@@ -34,8 +34,27 @@
                     <input id="city" type="text" th:field="*{city}" class="form-control" />
                 </div>
                 <div class="form-group">
+                    <label for="country">Land:</label>
+                    <input id="country" type="text" th:field="*{country}" class="form-control" />
+                </div>
+                <div class="form-group">
                     <label for="email">E-mail adres:</label>
                     <input id="email" type="text" th:field="*{email}" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="previousYearAmount">Bedrag voorgaand jaar:</label>
+                    <input id="previousYearAmount" type="number" th:field="*{previousYearAmount}" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Hoe werd de bijdrage betaald?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" th:field="*{previousYearPaymentType}" th:value="BANK_TRANSFER" name="paymentType" id="paymentTypeManual" />
+                        <label class="form-check-label" for="paymentTypeManual">Bank overschrijving</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" th:field="*{previousYearPaymentType}" th:value="BANK_AUTOMATIC" name="paymentType" id="paymentTypeAutomatic" />
+                        <label class="form-check-label" for="paymentTypeAutomatic">Per automatische incasso</label>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Maak registratie aan</button>

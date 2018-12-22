@@ -1,7 +1,9 @@
 package gemeente.nlakbonline.service;
 
 import gemeente.authorization.api.Account;
+import gemeente.authorization.api.AccountCreationRequest;
 import gemeente.authorization.api.AccountInformationResponse;
+import gemeente.authorization.api.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -19,12 +21,12 @@ public class AccountService {
     private OAuth2RestTemplate restOperations;
 
     public Optional<Account> getAccountInformation() {
-        final AccountInformationResponse result = restOperations.getForObject(accountServiceUri, AccountInformationResponse.class);
+        final String uri = createAccountServiceUri("me");
+        final AccountInformationResponse result = restOperations.getForObject(uri, AccountInformationResponse.class);
         return Optional.ofNullable(result.getAccount());
     }
 
-    public Optional<Account> createAccount() {
-        //restOperations.postForEntity()
-        return Optional.empty();
+    private String createAccountServiceUri(final String action) {
+        return this.accountServiceUri + "/" + action;
     }
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:replace="~{generic :: htmlheader}"></head>
+    <body>
+        <header th:replace="~{generic :: navigation}"></header>
+
+        <!-- Content -->
+        <main role="main" class="container">
+            <h1 class="mt-5" th:text="${page.title}"></h1>
+            <p class="lead" th:text="${page.introduction}?: ''"></p>
+            <p th:text="${page.content}" th:unless="${#strings.isEmpty(page.content)}"></p>
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="text-right">Jaar</th>
+                        <th scope="col" class="text-right">Naam</th>
+                        <th scope="col" class="text-right">Toekenning (EUR)</th>
+                        <th scope="col">Betalingsmethode</th>
+                        <th scope="col">Betaalmaanden</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="donation : ${donations}">
+                        <tr>
+                            <td scope="row" th:text="${donation.id.year}" class="text-right"></td>
+                            <td scope="row" th:text="${donation.id.accountId}"></td>
+                            <td scope="row"
+                                th:text="${#numbers.formatDecimal(donation.amount, 1, 'POINT', 2, 'COMMA')}" class="text-right"></td>
+                            <td scope="row"
+                                th:text="#{paymentType.__${donation.paymentType}__}"></td>
+                            <td scope="row">
+                                <th:block th:each="paymentMonth : ${donation.paymentMonths}">
+                                    <li scope="row" th:text="#{month.__${paymentMonth}__}"/>
+                                </th:block>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted" th:utext="${page.footer}?: ''"></span>
+            </div>
+        </footer>
+    </body>
+</html>

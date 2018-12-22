@@ -13,4 +13,7 @@ public interface AkbDonationRepository extends CrudRepository<AkbDonationDatabas
 
     @Query("select d.* from akb_donation d where d.account_id = :accountId and year = :year")
     Stream<AkbDonationDatabaseObject> findByUserAndYear(@Param("accountId") String accountId, @Param("year") int year);
+
+    @Query("select d.* from akb_donation d where d.year = :year")
+    Stream<AkbDonationDatabaseObject> findByYear(@Param("year") int year);
 }
