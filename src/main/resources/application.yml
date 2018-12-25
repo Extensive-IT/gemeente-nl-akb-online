@@ -39,6 +39,9 @@ content:
     bankAccountNumber: 'NL12 ABNA 0123 4567 89'
   collection:
     year: 2019
+  confirmation:
+    from: test@test.com
+    subject: Confirmation of your donation
   pages:
     pages[0]:
       id: welcome
@@ -83,6 +86,10 @@ content:
 
 server:
   port: 8081
+
+mail:
+  host: localhost
+  port: 25
 
 logging:
   level:

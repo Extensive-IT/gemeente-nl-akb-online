@@ -8,8 +8,10 @@ SET time_zone = "+00:00";
 
 DROP DATABASE IF EXISTS `gemeente-akb`;
 CREATE DATABASE `gemeente-akb`;
-CREATE USER IF NOT EXISTS `gemeente-akb`;
-GRANT all on `gemeente-akb`.* to 'gemeente-akb'@'%' identified by 'gemeente-akb';
+CREATE USER IF NOT EXISTS 'gemeente-akb'@'%' identified by 'gemeente-akb';
+CREATE USER IF NOT EXISTS 'gemeente-akb'@'localhost' identified by 'gemeente-akb';
+GRANT all on `gemeente-akb`.* to 'gemeente-akb'@'%';
+GRANT all on `gemeente-akb`.* to 'gemeente-akb'@'localhost';
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

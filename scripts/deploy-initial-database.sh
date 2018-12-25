@@ -7,6 +7,6 @@ name='dev-phpmyadmin'
 [[ $(docker ps -a -f "name=$name" --format '{{.Names}}') == $name ]] ||
 docker run --name dev-phpmyadmin -d --link dev-mysql:db -p 8082:80 -d phpmyadmin/phpmyadmin
 
-cat sql/createUsersDbAndUser.sql | docker exec -i dev-mysql /usr/bin/mysql -u root --password=password mysql && \
-cat sql/createTables.sql | docker exec -i dev-mysql /usr/bin/mysql -u 'gemeente-akb' --password='gemeente-akb' 'gemeente-akb' && \
-cat sql/fillInitialData.sql | docker exec -i dev-mysql /usr/bin/mysql -u 'gemeente-akb' --password='gemeente-akb' 'gemeente-akb'
+cat sql/createUsersDbAndUser.sql | docker exec -i dev-mysql mysql -u root --password=password mysql && \
+cat sql/createTables.sql | docker exec -i dev-mysql mysql -u 'gemeente-akb' --password='gemeente-akb' 'gemeente-akb' && \
+cat sql/fillInitialData.sql | docker exec -i dev-mysql mysql -u 'gemeente-akb' --password='gemeente-akb' 'gemeente-akb'

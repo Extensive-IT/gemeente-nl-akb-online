@@ -4,10 +4,7 @@ import gemeente.authorization.api.Account;
 import gemeente.nlakbonline.controller.model.*;
 import gemeente.nlakbonline.domain.AkbDonation;
 import gemeente.nlakbonline.domain.AkbDonationId;
-import gemeente.nlakbonline.service.AccountService;
-import gemeente.nlakbonline.service.AkbService;
-import gemeente.nlakbonline.service.AutomaticPaymentInformationConfiguration;
-import gemeente.nlakbonline.service.ManualPaymentInformationConfiguration;
+import gemeente.nlakbonline.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -32,6 +29,9 @@ public class DefaultController {
 
     @Autowired
     private ContentConfiguration contentConfiguration;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private AutomaticPaymentInformationConfiguration automaticPaymentInformationConfiguration;
@@ -167,6 +167,10 @@ public class DefaultController {
         // Store donation
         final AkbDonation akbDonation = createAkbDonation(akbDonationSession);
         this.akbService.storeDonation(akbDonation);
+
+        // E-mail confirmation
+        final Account account = this.accountService.getAccountInformation().get();
+        this.emailService.sendConfirmation(account, akbDonation);
 
         // Reset session
         akbDonationSession.reset();
