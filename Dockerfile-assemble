@@ -1,5 +1,5 @@
 FROM openjdk:11-jdk
 VOLUME /tmp
 COPY build/libs/*.jar /app/lib
-EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT ["java","-cp","app:app/lib/*","gemeente.nlakbonline.NlAkbOnlineApplication"]
