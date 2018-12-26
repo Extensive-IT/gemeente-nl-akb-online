@@ -42,6 +42,9 @@ public class AdminController {
     public String showCreateRegistrationForm(Map<String, Object> model) {
         model.put("page", createCreateRegistrationPage());
         model.put("registration", new Registration());
+        accountService.getAccountInformation().ifPresent(account -> {
+            model.put("account", account);
+        });
         return "akb-admin-create-registration";
     }
 
@@ -49,6 +52,9 @@ public class AdminController {
     public String show(Map<String, Object> model) {
         model.put("page", createOverviewPage());
         model.put("donations", this.akbService.retrieveAkbDonations(collectionYear));
+        accountService.getAccountInformation().ifPresent(account -> {
+            model.put("account", account);
+        });
         return "akb-admin-overview";
     }
 

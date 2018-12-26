@@ -51,7 +51,7 @@ public class DefaultController {
     @Value("${content.collection.year}")
     private Integer collectionYear;
 
-    @GetMapping("/")
+    @GetMapping({"/", "/akb/"})
     public String index(Map<String, Object> model) {
         return welcome(model);
     }
@@ -64,14 +64,15 @@ public class DefaultController {
 
     @GetMapping("/akb/give")
     public String start(@ModelAttribute final AkbDonationSession akbDonationSession, Map<String, Object> model) {
+        final Optional<Account> accountOptional = this.accountService.getAccountInformation();
         final List<AkbDonation> donations =
-                this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear);
+                this.akbService.retrieveAkbDonations(accountOptional.get().getId().toString(), this.collectionYear);
         if (donations.size() > 0) {
             return "redirect:/akb/already-finalized";
         }
 
         final AkbDonationStep1 akbDonationStep1 = akbDonationSession.getAkbDonationStep1();
-        akbDonationStep1.setAkbPersonRegistration(createAkbPersonRegistration());
+        akbDonationStep1.setAkbPersonRegistration(createAkbPersonRegistration(accountOptional));
         return showFirstGivePage(akbDonationSession.getAkbDonationStep1(), model);
     }
 
@@ -79,6 +80,9 @@ public class DefaultController {
         this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear - 1).stream().findAny().ifPresent((akbDonation -> model.put("donation", akbDonation)));
         model.put("page", contentConfiguration.getById("give").get());
         model.put("akbDonationStep1", akbDonationStep1);
+        accountService.getAccountInformation().ifPresent(account -> {
+            model.put("account", account);
+        });
         return "akb-give-step1";
     }
 
@@ -114,12 +118,16 @@ public class DefaultController {
         }
 
         final AkbDonationStep2 akbDonationStep2 = akbDonationSession.createOrReuseAkbDonationStep2();
-        final AkbPersonRegistration akbPersonRegistration = createAkbPersonRegistration();
+        final Optional<Account> accountOptional = this.accountService.getAccountInformation();
+        final AkbPersonRegistration akbPersonRegistration = createAkbPersonRegistration(accountOptional);
         akbDonationSession.getAkbDonationStep1().setAkbPersonRegistration(akbPersonRegistration);
         akbDonationStep2.setPaymentInformation(createBankManualPaymentInformation(akbPersonRegistration.getRegistrationNumber()));
         model.put("akbDonationStep1", akbDonationSession.getAkbDonationStep1());
         model.put("akbDonationStep2", akbDonationStep2);
         model.put("page", contentConfiguration.getById("give-bank-transfer").get());
+        accountOptional.ifPresent(account -> {
+            model.put("account", account);
+        });
         return "akb-give-step-bank-transfer";
     }
 
@@ -133,12 +141,16 @@ public class DefaultController {
         final String paymentReason = page.getTitle();
 
         final AkbDonationStep2 akbDonationStep2 = akbDonationSession.createOrReuseAkbDonationStep2();
-        final AkbPersonRegistration akbPersonRegistration = createAkbPersonRegistration();
+        final Optional<Account> accountOptional = this.accountService.getAccountInformation();
+        final AkbPersonRegistration akbPersonRegistration = createAkbPersonRegistration(accountOptional);
         akbDonationSession.getAkbDonationStep1().setAkbPersonRegistration(akbPersonRegistration);
         akbDonationStep2.setPaymentInformation(createBankAutomaticPaymentInformation(akbPersonRegistration.getRegistrationNumber(), paymentReason));
         model.put("akbDonationStep1", akbDonationSession.getAkbDonationStep1());
         model.put("akbDonationStep2", akbDonationStep2);
         model.put("page", page);
+        accountOptional.ifPresent(account -> {
+            model.put("account", account);
+        });
         return "akb-give-step-bank-automatic";
     }
 
@@ -165,7 +177,8 @@ public class DefaultController {
         }
 
         // Store donation
-        final AkbDonation akbDonation = createAkbDonation(akbDonationSession);
+        final Optional<Account> accountOptional = this.accountService.getAccountInformation();
+        final AkbDonation akbDonation = createAkbDonation(akbDonationSession, accountOptional);
         this.akbService.storeDonation(akbDonation);
 
         // E-mail confirmation
@@ -179,22 +192,30 @@ public class DefaultController {
 
     @GetMapping("/akb/thanks")
     public String showThanksPage(Map<String, Object> model) {
+        final Optional<Account> accountOptional = this.accountService.getAccountInformation();
+        accountOptional.ifPresent(account -> {
+            model.put("account", account);
+        });
         model.put("page", contentConfiguration.getById("thanks").get());
         final List<AkbDonation> donations =
-                this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear);
+                this.akbService.retrieveAkbDonations(accountOptional.get().getId().toString(), this.collectionYear);
         if (!donations.isEmpty()) {
             model.put("donation", donations.get(0));
             model.put("manualPaymentInformation", this.manualPaymentInformationConfiguration);
-            model.put("akbPersonRegistration", createAkbPersonRegistration());
+            model.put("akbPersonRegistration", createAkbPersonRegistration(accountOptional));
         }
         return "akb-thanks";
     }
 
     @GetMapping("/akb/already-finalized")
     public String finalized(Map<String, Object> model) {
+        final Optional<Account> accountOptional = this.accountService.getAccountInformation();
+        accountOptional.ifPresent(account -> {
+            model.put("account", account);
+        });
         model.put("page", contentConfiguration.getById("finalized").get());
         final List<AkbDonation> donations =
-                this.akbService.retrieveAkbDonations(this.accountService.getAccountInformation().get().getId().toString(), this.collectionYear);
+                this.akbService.retrieveAkbDonations(accountOptional.get().getId().toString(), this.collectionYear);
         model.put("donations", donations);
         return "akb-finalized";
     }
@@ -209,9 +230,9 @@ public class DefaultController {
         return principal;
     }
 
-    AkbPersonRegistration createAkbPersonRegistration() {
+    AkbPersonRegistration createAkbPersonRegistration(final Optional<Account> accountOptional) {
         final AkbPersonRegistration result = new AkbPersonRegistration();
-        accountService.getAccountInformation().ifPresent(account -> {
+        accountOptional.ifPresent(account -> {
             result.setAddress(account.getAddress().getStreet());
             result.setPostalCode(account.getAddress().getPostalCode());
             result.setCity(account.getAddress().getCity());
@@ -239,8 +260,7 @@ public class DefaultController {
         return result;
     }
 
-    AkbDonation createAkbDonation(final AkbDonationSession akbDonationSession) {
-        final Optional<Account> accountOptional = accountService.getAccountInformation();
+    AkbDonation createAkbDonation(final AkbDonationSession akbDonationSession, final Optional<Account> accountOptional) {
         if (accountOptional.isPresent()) {
             final AkbDonationId id = new AkbDonationId(accountOptional.get().getId(), collectionYear);
             final AkbDonation akbDonation = new AkbDonation(id, akbDonationSession.getAkbDonationStep1().getAmount(), akbDonationSession.getAkbDonationStep1().getPaymentType(), akbDonationSession.getAkbDonationStep1().getPaymentMonths());

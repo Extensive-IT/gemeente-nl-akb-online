@@ -31,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
 
+    @Autowired
+    private AuthorizationServerLogoutHandler authorizationServerLogoutHandler;
+
     /**
      * Spring Security should completely ignore URLs starting with /resources/, /external/ or /favicon
      * @param web
@@ -46,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests().antMatchers("/", "/akb/welcome", "/login**", "/webjars/**", "/error**").permitAll().anyRequest()
                 .authenticated().and().exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint(LOGIN_GEMEENTE)).and().logout()
-                .logoutSuccessUrl("/").permitAll().and().csrf()
+                .logoutSuccessUrl("/").logoutSuccessHandler(authorizationServerLogoutHandler).permitAll().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
     }

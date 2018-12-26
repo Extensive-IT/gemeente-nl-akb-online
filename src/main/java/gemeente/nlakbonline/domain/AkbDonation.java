@@ -12,8 +12,6 @@ public class AkbDonation extends Donation {
 
     private List<Month> paymentMonths;
 
-    private PaymentType paymentType;
-
     public AkbDonation(final AkbDonationId id, final double amount, final PaymentType paymentType, final Collection<Month> paymentsMonths) {
         super(amount, paymentType);
         this.id = id;

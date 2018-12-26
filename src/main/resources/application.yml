@@ -13,6 +13,7 @@ gemeente:
 account:
   service:
     uri: http://gemeente-auth:8080/user/account
+    logout: http://gemeente-auth:8080/logout
 
 datasource:
   akb:

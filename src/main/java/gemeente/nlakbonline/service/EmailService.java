@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+@Service
 public class EmailService {
 
     @Autowired
@@ -47,6 +49,8 @@ public class EmailService {
         final Page page = contentConfiguration.getById("give-bank-automatic").get();
         final String paymentReason = page.getTitle();
         ctx.setVariable("automaticPaymentInformation", createBankAutomaticPaymentInformation(account.getRegistrationReferenceId(), paymentReason));
+        ctx.setVariable("replyTo", from);
+        ctx.setVariable("footer", page.getFooter());
         sendMessage(account.getEmailAddress(), subject, "akb-email-confirmation", ctx);
     }
 

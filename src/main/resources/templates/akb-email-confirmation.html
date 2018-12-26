@@ -319,6 +319,7 @@
           border-color: #34495e !important;
         }
       }
+
     </style>
 </head>
 <body class="">
@@ -333,26 +334,45 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <p>Beste <th:span th:text="${account.fullName}" />,</p>
-                                        <p>Bedankt voor uw bijdrage voor de Actie Kerk Balans <th:span th:text="${donation.id.year}" />.
+                                        <p>Beste <span th:text="${account.fullName}">Mr X.</span>,</p>
+                                        <p>Bedankt voor uw bijdrage voor de Actie Kerk Balans
+                                            <th:span th:text="${donation.id.year}"/>
+                                            .
+                                        </p>
 
-                                        <th:block th:switch="${donation.paymentType.name()}">
-                                            <p th:case="'BANK_TRANSFER'">Wilt u uw bijdrage overmaken naar rekeningnummer <th:span th:text="${manualPaymentInformation.bankAccountNumber}" /> ten
-                                                name van <th:span th:text="${manualPaymentInformation.creditorName}" /> en niet naar een ander nummer van de
-                                                kerk. Bij betalingen uw Registratienummer <th:span th:text="${account.registrationReferenceId}" /> vermelden alstublieft.
+                                        <th:block th:if="${donation.paymentType.name() == 'BANK_TRANSFER'}">
+                                            <p>Wilt u uw bijdrage overmaken naar rekeningnummer
+                                                <th:span th:text="${manualPaymentInformation.bankAccountNumber}"/>
+                                                ten
+                                                name van
+                                                <th:span th:text="${manualPaymentInformation.creditorName}"/>
+                                                en niet naar een ander nummer van de
+                                                kerk. Bij betalingen uw Registratienummer
+                                                <th:span th:text="${account.registrationReferenceId}"/>
+                                                vermelden alstublieft.
                                             </p>
-                                            <p th:case="'BANK_AUTOMATIC'">
-                                                U heeft gekozen voor een automatische incasso. De bedragen zullen door <th:span th:text="${automaticPaymentInformation.creditorName}" /> rond de
-                                                <th:span th:text="${automaticPaymentInformation.dayOfMonth}" />e van elke gekozen maand van uw rekening afschrijven.
+                                        </th:block>
+                                        <th:block th:if="${donation.paymentType.name() == 'BANK_AUTOMATIC'}">
+                                            <p>
+                                                U heeft gekozen voor een automatische incasso. De bedragen zullen door
+                                                <th:span th:text="${automaticPaymentInformation.creditorName}"/>
+                                                rond de
+                                                <th:span th:text="${automaticPaymentInformation.dayOfMonth}"/>
+                                                e van elke gekozen maand van uw rekening afschrijven.
                                                 U kunt de afschrijving herkennen aan de volgende informatie:
-                                                <ul>
-                                                    <li>incassant ID <th:span th:text="${automaticPaymentInformation.creditorId}" />.</li>
-                                                    <li>Machtigingskernmerk <th:span th:text="${automaticPaymentInformation.mandateReference}" />.</li>
-                                                </ul>
+                                            <ul>
+                                                <li>incassant ID
+                                                    <th:span th:text="${automaticPaymentInformation.creditorId}"/>.
+                                                </li>
+                                                <li>Machtigingskernmerk
+                                                    <th:span th:text="${automaticPaymentInformation.mandateReference}"/>.
+                                                </li>
+                                            </ul>
                                             </p>
                                         </th:block>
 
-                                        <p>Mocht u nog vragen hebben, dan neem contact op met de kerkrentmeesters: <a th:href="mailto:${replyTo}" th:text="${replyTo}"></a></p>
+                                        <p>Mocht u nog vragen hebben, neem dan contact op met de kerkrentmeesters: <a
+                                                th:href="${'mailto:' + replyTo}" th:text="${replyTo}"></a>.</p>
                                     </td>
                                 </tr>
                             </table>
@@ -363,7 +383,7 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block">
-                                <span class="apple-link" th:text="${footer:Church}">Church</span>
+                                <span class="apple-link" th:utext="${(footer) ?: ('Church')}">Church</span>
                             </td>
                         </tr>
                     </table>
