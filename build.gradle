@@ -36,6 +36,8 @@ task unpack(type: Copy) {
 	into("build/dependency")
 }
 
+assemble.finalizedBy(unpack)
+
 docker {
 	name "gemeente/nlakbonline"
 	copySpec.from(tasks.unpack.outputs).into("dependency")
