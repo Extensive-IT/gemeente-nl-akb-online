@@ -13,27 +13,25 @@
             <table class="table">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col" class="text-right">Jaar</th>
+                        <th scope="col" class="text-right">Registratie #</th>
                         <th scope="col">Naam</th>
-                        <th scope="col" class="text-right">Toezegging (EUR)</th>
-                        <th scope="col">Betaalmethode</th>
-                        <th scope="col">Betaalmaanden</th>
+                        <th scope="col">Adres</th>
+                        <th scope="col">E-mail</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <th:block th:each="donation : ${donations}">
+                    <th:block th:each="account : ${registrations}">
                         <tr>
-                            <td scope="row" th:text="${donation.id.year}" class="text-right"></td>
-                            <td scope="row" th:text="${registrations.get(donation.id.accountId).fullName}"></td>
-                            <td scope="row"
-                                th:text="${#numbers.formatDecimal(donation.amount, 1, 'POINT', 2, 'COMMA')}" class="text-right"></td>
-                            <td scope="row"
-                                th:text="#{paymentType.__${donation.paymentType}__}"></td>
+                            <td scope="row" th:text="${account.registrationReferenceId}" class="text-right"></td>
+                            <td scope="row" th:text="${account.fullName}"></td>
                             <td scope="row">
-                                <th:block th:each="paymentMonth : ${donation.paymentMonths}">
-                                    <li scope="row" th:text="#{month.__${paymentMonth}__}"/>
-                                </th:block>
+                                <span th:text="${account.address.street}">Street</span><br />
+                                <span th:text="${account.address.postalCode}">Postal Code</span>&nbsp;
+                                <span th:text="${account.address.city}">City</span><br />
+                                <span th:text="${account.address.country}">Country</span><br />
                             </td>
+                            <td scope="row"
+                                th:text="${account.emailAddress}"></td>
                         </tr>
                     </th:block>
                 </tbody>

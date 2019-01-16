@@ -1,9 +1,6 @@
 package gemeente.nlakbonline.service;
 
-import gemeente.authorization.api.Account;
-import gemeente.authorization.api.AccountCreationRequest;
-import gemeente.authorization.api.AccountInformationResponse;
-import gemeente.authorization.api.Address;
+import gemeente.authorization.api.*;
 import gemeente.nlakbonline.domain.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RegistrationService {
@@ -24,6 +21,7 @@ public class RegistrationService {
 
     /**
      * Register the person in the account service, so that he/she has an account.
+     *
      * @param registration
      * @return
      */
@@ -43,6 +41,28 @@ public class RegistrationService {
 
         final ResponseEntity<AccountInformationResponse> result = restOperations.postForEntity(uri, request, AccountInformationResponse.class);
         return Optional.ofNullable(result.getBody().getAccount());
+    }
+
+    /**
+     * Retrieve all account registrations available
+     *
+     * @param
+     * @return list off all accounts
+     */
+    public List<Account> retrieveAllRegistrations() {
+        final String uri = createAccountServiceUri("registrations");
+
+        final ResponseEntity<Accounts> result = restOperations.getForEntity(uri, Accounts.class);
+        return result.getBody().getAccounts();
+    }
+
+    public Map<UUID, Account> retrieveAllRegistrationsMap() {
+        final List<Account> accounts = this.retrieveAllRegistrations();
+        final Map<UUID, Account> results = new HashMap<>();
+        accounts.stream().forEach((account -> {
+            results.put(account.getId(), account);
+        }));
+        return results;
     }
 
     private String createAccountServiceUri(final String action) {

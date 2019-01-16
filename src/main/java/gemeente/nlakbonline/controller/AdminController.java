@@ -52,10 +52,21 @@ public class AdminController {
     public String show(Map<String, Object> model) {
         model.put("page", createOverviewPage());
         model.put("donations", this.akbService.retrieveAkbDonations(collectionYear));
+        model.put("registrations", this.registrationService.retrieveAllRegistrationsMap());
         accountService.getAccountInformation().ifPresent(account -> {
             model.put("account", account);
         });
         return "akb-admin-overview";
+    }
+
+    @GetMapping("/akb/admin/registrations")
+    public String showRegistrations(Map<String, Object> model) {
+        model.put("page", createRegistrationsOverviewPage());
+        model.put("registrations", this.registrationService.retrieveAllRegistrations());
+        accountService.getAccountInformation().ifPresent(account -> {
+            model.put("account", account);
+        });
+        return "akb-admin-registrations-overview";
     }
 
     @PostMapping(value = "/akb/admin/createRegistration")
@@ -98,8 +109,15 @@ public class AdminController {
 
     private Page createOverviewPage() {
         final Page page = new Page();
-        page.setTitle("Toekenningen jaar " + collectionYear);
-        page.setId("toekenningen-huidig-jaar");
+        page.setTitle("Toezeggingen jaar " + collectionYear);
+        page.setId("toezeggingen-huidig-jaar");
+        return page;
+    }
+
+    private Page createRegistrationsOverviewPage() {
+        final Page page = new Page();
+        page.setTitle("Registraties");
+        page.setId("registraties-overzicht");
         return page;
     }
 }
