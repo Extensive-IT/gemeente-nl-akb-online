@@ -11,16 +11,16 @@
 
             <form method="post"  th:action="@{/akb/give-step2}" th:object="${akbDonationStep2}">
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <strong>Wilt u akkoord gaan met de voorwaarden?</strong>
+                    <strong>Gaat u akkoord met de privacyvoorwaarden?</strong>
                 </div>
 
                 <div th:replace="~{generic :: akb-give-step-overview}"></div>
 
-                <h2>SEPA, doorlopende machtiging</h2>
+                <h2>Machting voor automatische incasso (SEPA)</h2>
                 <p>
-                    Door ondertekening van dit formulier geeft u toestemming aan het <th:span th:text="${akbDonationStep2.paymentInformation.creditorName}" />
-                    om het door u aangegeven bedrag te incasseren voor <th:span th:text="${akbDonationStep2.paymentInformation.paymentReason}" />.<br /><br />Wij zullen de bedragen
-                    rond de <th:span th:text="${akbDonationStep2.paymentInformation.dayOfMonth}" />e van elke gekozen maand van uw rekening afschrijven.<br />
+                    Door akkoord te geven op dit formulier geeft u toestemming aan het <th:span th:text="${akbDonationStep2.paymentInformation.creditorName}" />
+                    om het door u aangegeven bedrag te incasseren voor <th:span th:text="${akbDonationStep2.paymentInformation.paymentReason}" />.<br /><br />De bedragen
+                    worden rond de <th:span th:text="${akbDonationStep2.paymentInformation.dayOfMonth}" />e van de gekozen maanden van uw rekening afgeschreven.<br />
                     Het incassant ID is <th:span th:text="${akbDonationStep2.paymentInformation.creditorId}" />.<br />
                     Het kenmerk van de machtiging is <th:span th:text="${akbDonationStep2.paymentInformation.mandateReference}" />.</p>
 
@@ -28,8 +28,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" th:field="*{agreePrivacyTerms}"
                                name="agreePrivacyTerms" id="agreePrivacyTerms">
-                        <label class="form-check-label" for="agreePrivacyTerms">Ik ga akkoord met de privacy
-                            voorwaarden</label>
+                        <label class="form-check-label" for="agreePrivacyTerms">Ik ga akkoord met de <a href="/external/privacyvoorwaarden-ichthusgemeente.pdf">privacyvoorwaarden</a>.</label>
                     </div>
                 </div>
 

@@ -35,3 +35,11 @@ body > .container {
 code {
   font-size: 80%;
 }
+
+.table-custom th {
+    padding-right: 25pt;
+}
+
+.table-custom td {
+    text-align: right;
+}

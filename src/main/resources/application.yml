@@ -41,6 +41,7 @@ content:
   collection:
     year: 2019
   confirmation:
+    from-display: Test
     from: test@test.com
     subject: Confirmation of your donation
   pages:

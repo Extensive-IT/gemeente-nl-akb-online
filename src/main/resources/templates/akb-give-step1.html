@@ -12,7 +12,7 @@
 
             <form method="post" th:action="@{/akb/give-step1}" th:object="${akbDonationStep1}">
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <strong>Vult u alstublieft alle velden in</strong>
+                    <strong>Vul alle velden in</strong>
                 </div>
 
                 <th:block th:if="${donation != null}">
@@ -22,7 +22,7 @@
                 </th:block>
 
                 <div class="form-group">
-                    <label for="totalAmount">Voor de actie kerkbalans zeg ik een bedrag toe van (EUR):</label>
+                    <label for="totalAmount">Voor de Actie Kerkbalans zeg ik een bedrag toe van (EUR):</label>
                     <input id="totalAmount" type="number" th:field="*{amount}" class="form-control" min="0.00" step="1.00" value="0.00" placeholder="Bedrag" />
                 </div>
                 <div class="form-group">

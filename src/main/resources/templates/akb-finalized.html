@@ -14,8 +14,8 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" class="text-right">Jaar</th>
-                        <th scope="col" class="text-right">Toekenning (EUR)</th>
-                        <th scope="col">Betalingsmethode</th>
+                        <th scope="col" class="text-right">Toezegging (EUR)</th>
+                        <th scope="col">Betaalmethode</th>
                         <th scope="col">Betaalmaanden</th>
                     </tr>
                 </thead>
@@ -29,7 +29,7 @@
                                 th:text="#{paymentType.__${donation.paymentType}__}"></td>
                             <td scope="row">
                                 <th:block th:each="paymentMonth : ${donation.paymentMonths}">
-                                    <li scope="row" th:text="#{month.__${paymentMonth}__}"/>
+                                    <span th:text="#{month.__${paymentMonth}__}">Month</span>
                                 </th:block>
                             </td>
                         </tr>

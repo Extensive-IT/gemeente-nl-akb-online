@@ -15,6 +15,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 
 @Service
 public class EmailService {
@@ -27,6 +28,9 @@ public class EmailService {
 
     @Value("${content.confirmation.from}")
     private String from;
+
+    @Value("${content.confirmation.from-display}")
+    private String fromDisplay;
 
     @Value("${content.confirmation.subject:Confirmation of your donation}")
     private String subject;
@@ -63,7 +67,7 @@ public class EmailService {
             final MimeMessageHelper message =
                     new MimeMessageHelper(mimeMessage, true, "UTF-8"); // true = multipart
             message.setSubject(subject);
-            message.setFrom(from);
+            message.setFrom(from, fromDisplay);
             message.setTo(to);
 
             // Create the HTML body using Thymeleaf
@@ -77,7 +81,7 @@ public class EmailService {
             // Send mail
             this.emailSender.send(mimeMessage);
         }
-        catch (MessagingException e) {
+        catch (UnsupportedEncodingException | MessagingException e) {
             throw new RuntimeException(e);
         }
     }

@@ -11,22 +11,21 @@
 
             <form method="post"  th:action="@{/akb/give-step2}" th:object="${akbDonationStep2}">
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <strong>Wilt u akkoord gaan met de voorwaarden?</strong>
+                    <strong>Gaat u akkoord met de privacyvoorwaarden?</strong>
                 </div>
 
                 <div th:replace="~{generic :: akb-give-step-overview}"></div>
 
                 <h4>Overmaken</h4>
                 <p>
-                Wilt u uw bijdrage overmaken naar rekeningnummer <th:span th:text="${akbDonationStep2.paymentInformation.bankAccountNumber}" /> ten
-                name van <th:span th:text="${akbDonationStep2.paymentInformation.creditorName}" /> en niet naar een ander nummer van de
-                    kerk. Bij betalingen uw Registratienummer <th:span th:text="${akbDonationStep2.paymentInformation.reference}" /> vermelden alstublieft.</p>
+                Maak uw bijdrage overnaar rekeningnummer <th:span th:text="${akbDonationStep2.paymentInformation.bankAccountNumber}" /> ten
+                    name van <th:span th:text="${akbDonationStep2.paymentInformation.creditorName}" />. Let op! Het is belangrijk dit rekeningnummer gebruikt. Vermeld bij uw betalingen registratienummer
+                    <th:span th:text="${akbDonationStep2.paymentInformation.reference}" />.</p>
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" th:field="*{agreePrivacyTerms}"
                                name="agreePrivacyTerms" id="agreePrivacyTerms">
-                        <label class="form-check-label" for="agreePrivacyTerms">Ik ga akkoord met de privacy
-                            voorwaarden</label>
+                        <label class="form-check-label" for="agreePrivacyTerms">Ik ga akkoord met de <a href="/external/privacyvoorwaarden-ichthusgemeente.pdf">privacyvoorwaarden</a>.</label>
                     </div>
                 </div>
                 <br /><br />

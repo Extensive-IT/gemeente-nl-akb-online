@@ -335,7 +335,7 @@
                                 <tr>
                                     <td>
                                         <p>Beste <span th:text="${account.fullName}">Mr X.</span>,</p>
-                                        <p>Bedankt voor uw bijdrage voor de Actie Kerk Balans
+                                        <p>Bedankt voor uw toezegging aan Actie Kerkbalans
                                             <th:span th:text="${donation.id.year}"/>
                                             .
                                         </p>
@@ -354,14 +354,13 @@
                                         </th:block>
                                         <th:block th:if="${donation.paymentType.name() == 'BANK_AUTOMATIC'}">
                                             <p>
-                                                U heeft gekozen voor een automatische incasso. De bedragen zullen door
+                                                U heeft gekozen voor automatische incasso. De bedragen worden door
                                                 <th:span th:text="${automaticPaymentInformation.creditorName}"/>
                                                 rond de
-                                                <th:span th:text="${automaticPaymentInformation.dayOfMonth}"/>
-                                                e van elke gekozen maand van uw rekening afschrijven.
-                                                U kunt de afschrijving herkennen aan de volgende informatie:
+                                                <th:span th:text="${automaticPaymentInformation.dayOfMonth}"/>e van de gekozen maanden afgeschreven van uw rekening.
+                                                U herkent de afschrijving aan de volgende informatie:
                                             <ul>
-                                                <li>incassant ID
+                                                <li>Incassant ID
                                                     <th:span th:text="${automaticPaymentInformation.creditorId}"/>.
                                                 </li>
                                                 <li>Machtigingskernmerk
@@ -371,8 +370,9 @@
                                             </p>
                                         </th:block>
 
-                                        <p>Mocht u nog vragen hebben, neem dan contact op met de kerkrentmeesters: <a
+                                        <p>Heeft u nog vragen, neem dan contact op met het college van kerkrentmeesters: <a
                                                 th:href="${'mailto:' + replyTo}" th:text="${replyTo}"></a>.</p>
+                                        <p>Met vriendelijke groet, <br />College van kerkrentmeesters</p>
                                     </td>
                                 </tr>
                             </table>

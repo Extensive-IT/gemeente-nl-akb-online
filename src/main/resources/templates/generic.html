@@ -13,7 +13,7 @@
 
     <header th:fragment="navigation">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="/">AKB</a>
+            <a class="navbar-brand" href="/">Actie Kerkbalans</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -59,12 +59,11 @@
             <span th:text="${akbDonationStep1.akbPersonRegistration.address}" />
             <span th:text="${akbDonationStep1.akbPersonRegistration.postalCode}" />&nbsp;<span th:text="${akbDonationStep1.akbPersonRegistration.city}" />
         </p>
-        <table>
+        <table class="table table-custom">
             <tr><th>Bedrag (EUR):</th><td th:text="${#numbers.formatDecimal(akbDonationStep1.amount, 1, 'POINT', 2, 'COMMA')}" /></tr>
             <tr><th>Registratienummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.registrationNumber}" /></tr>
-            <tr><th>Uw IBAN-nummer:</th><td th:text="${akbDonationStep1.akbPersonRegistration.bankAccountNumber}" /></tr>
             <th:block th:each="month : ${akbDonationStep1.allMonths}">
-                <tr><th th:text="#{month.__${month}__}"></th><td style="text-align: right;" th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
+                <tr><th th:text="#{month.__${month}__}"></th><td th:text="${#numbers.formatDecimal(akbDonationStep1.calculateAmountByMonth(month), 1, 'POINT', 2, 'COMMA')}" /></tr>
             </th:block>
         </table>
     </div>
