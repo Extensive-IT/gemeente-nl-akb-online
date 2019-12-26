@@ -50,7 +50,7 @@ public class AdminController {
     }
 
     @GetMapping("/akb/admin")
-    public String show(Map<String, Object> model, @RequestParam("year") Integer year) {
+    public String show(Map<String, Object> model, @RequestParam(value = "year", required = false) Integer year) {
         if (year == null || year > collectionYear) {
             year = collectionYear;
         }
