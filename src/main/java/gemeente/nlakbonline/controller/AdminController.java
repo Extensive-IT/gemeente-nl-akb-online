@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -49,9 +50,13 @@ public class AdminController {
     }
 
     @GetMapping("/akb/admin")
-    public String show(Map<String, Object> model) {
-        model.put("page", createOverviewPage());
-        model.put("donations", this.akbService.retrieveAkbDonations(collectionYear));
+    public String show(Map<String, Object> model, @RequestParam("year") Integer year) {
+        if (year == null || year > collectionYear) {
+            year = collectionYear;
+        }
+
+        model.put("page", createOverviewPage(year));
+        model.put("donations", this.akbService.retrieveAkbDonations(year));
         model.put("registrations", this.registrationService.retrieveAllRegistrationsMap());
         accountService.getAccountInformation().ifPresent(account -> {
             model.put("account", account);
@@ -107,9 +112,9 @@ public class AdminController {
         return page;
     }
 
-    private Page createOverviewPage() {
+    private Page createOverviewPage(Integer year) {
         final Page page = new Page();
-        page.setTitle("Toezeggingen jaar " + collectionYear);
+        page.setTitle("Toezeggingen jaar " + year);
         page.setId("toezeggingen-huidig-jaar");
         return page;
     }
