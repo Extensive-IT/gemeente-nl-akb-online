@@ -80,10 +80,13 @@ public class AdminController {
                 final Optional<Account> account = this.registrationService.register(extractRegistration(registrationRecord));
                 account.ifPresent(createdAccount -> {
                     if (registrationRecord.getPreviousYearAmount() != null) {
-                        final AkbDonationId akbDonationId = new AkbDonationId(createdAccount.getId(), collectionYear - 1);
-                        final PaymentType paymentType = registrationRecord.getPreviousYearPaymentType() != null ? registrationRecord.getPreviousYearPaymentType() : PaymentType.BANK_TRANSFER;
-                        final AkbDonation akbDonation = new AkbDonation(akbDonationId, registrationRecord.getPreviousYearAmount(), paymentType, Lists.newArrayList());
-                        this.akbService.storeDonation(akbDonation);
+                        final List<AkbDonation> existingDonations = this.akbService.retrieveAkbDonations(createdAccount.getId().toString(), collectionYear - 1);
+                        if (existingDonations.isEmpty()) {
+                            final AkbDonationId akbDonationId = new AkbDonationId(createdAccount.getId(), collectionYear - 1);
+                            final PaymentType paymentType = registrationRecord.getPreviousYearPaymentType() != null ? registrationRecord.getPreviousYearPaymentType() : PaymentType.BANK_TRANSFER;
+                            final AkbDonation akbDonation = new AkbDonation(akbDonationId, registrationRecord.getPreviousYearAmount(), paymentType, Lists.newArrayList());
+                            this.akbService.storeDonation(akbDonation);
+                        }
                     }
                 });
             });
