@@ -63,6 +63,7 @@ dependencies {
 	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
 	implementation('org.springframework.cloud:spring-cloud-starter-oauth2')
 	implementation('com.fasterxml.jackson.core:jackson-annotations:2.9.0')
+	implementation('com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.9.0')
 	runtime('mysql:mysql-connector-java:8.0.13')
 
 	//implementation('org.webjars:bootstrap:4.1.3')

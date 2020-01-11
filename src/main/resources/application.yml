@@ -89,9 +89,15 @@ content:
 server:
   port: 8081
 
-mail:
-  host: localhost
-  port: 25
+spring:
+  mail:
+    host: localhost
+    port: 25
+
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 1MB
 
 logging:
   level:

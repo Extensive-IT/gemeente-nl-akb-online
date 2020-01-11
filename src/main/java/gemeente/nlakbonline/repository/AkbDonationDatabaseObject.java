@@ -6,6 +6,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,22 +38,26 @@ public class AkbDonationDatabaseObject {
     @Column("amount")
     private final double amount;
 
-    public static AkbDonationDatabaseObject of(String accountId, int year, double amount, String paymentType, String paymentMonths) {
+    @Column("created")
+    private final LocalDateTime created;
+
+    public static AkbDonationDatabaseObject of(String accountId, int year, double amount, String paymentType, String paymentMonths, LocalDateTime created) {
         return new AkbDonationDatabaseObject(null, accountId, year, amount,
-                paymentType, paymentMonths);
+                paymentType, paymentMonths, created);
     }
 
-    AkbDonationDatabaseObject(final Integer id, final String accountId, final int year, final double amount, final String paymentType, final String paymentMonths) {
+    AkbDonationDatabaseObject(final Integer id, final String accountId, final int year, final double amount, final String paymentType, final String paymentMonths, final LocalDateTime created) {
         this.id = id;
         this.accountId = accountId;
         this.year = year;
         this.amount = amount;
         this.paymentType = paymentType;
         this.paymentMonths = paymentMonths;
+        this.created = created;
     }
 
     AkbDonationDatabaseObject withId(Integer id) {
-        return new AkbDonationDatabaseObject(id, this.accountId, this.year, this.amount, this.paymentType, this.paymentMonths);
+        return new AkbDonationDatabaseObject(id, this.accountId, this.year, this.amount, this.paymentType, this.paymentMonths, this.created);
     }
 
     public Integer getId() {
@@ -79,6 +84,10 @@ public class AkbDonationDatabaseObject {
         return amount;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", AkbDonationDatabaseObject.class.getSimpleName() + "[", "]")
@@ -86,6 +95,7 @@ public class AkbDonationDatabaseObject {
                 .add("accountId=" + accountId)
                 .add("paymentMonths=" + paymentMonths)
                 .add("amount=" + amount)
+                .add("created=" + created)
                 .toString();
     }
 

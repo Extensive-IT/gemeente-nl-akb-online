@@ -13,6 +13,7 @@ CREATE TABLE `akb_donation` (
   `amount` decimal(8,2) NOT NULL,
   `payment_type` varchar(24) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payment_months` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   primary key (`id`),
   unique key(`account_id`, `year`)
 ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -9,6 +9,7 @@ import gemeente.nlakbonline.repository.AkbDonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -52,6 +53,6 @@ public class AkbService {
     }
 
     private static AkbDonationDatabaseObject from(final AkbDonation akbDonation) {
-        return AkbDonationDatabaseObject.of(akbDonation.getId().getAccountId().toString(), akbDonation.getId().getYear(), akbDonation.getAmount(), akbDonation.getPaymentType().toString(), convertPaymentMonths(akbDonation.getPaymentMonths()));
+        return AkbDonationDatabaseObject.of(akbDonation.getId().getAccountId().toString(), akbDonation.getId().getYear(), akbDonation.getAmount(), akbDonation.getPaymentType().toString(), convertPaymentMonths(akbDonation.getPaymentMonths()), LocalDateTime.now());
     }
 }

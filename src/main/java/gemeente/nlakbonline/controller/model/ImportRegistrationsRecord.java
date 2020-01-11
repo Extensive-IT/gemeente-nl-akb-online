@@ -2,50 +2,19 @@ package gemeente.nlakbonline.controller.model;
 
 import gemeente.nlakbonline.domain.PaymentType;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-public class Registration {
-
-    @NotNull
-    @NotEmpty
+// GeregistreerdeNummer	Gebruiken om aan te schrijven	Straat	nr	toev	Postcode	Plaats	Toegezegd 2019		E-Mail
+public class ImportRegistrationsRecord {
     private String registrationNumber;
-
-    @NotNull
-    @NotEmpty
     private String salutation;
-
-    @NotNull
-    @NotEmpty
     private String street;
-
-    @NotNull
-    @NotEmpty
+    private String number;
+    private String addition;
     private String postalCode;
-
-    @NotNull
-    @NotEmpty
     private String city;
-
-    @NotNull
-    @NotEmpty
     private String country;
-
-    @NotNull
-    @NotEmpty
     private String email;
-
     private Double previousYearAmount;
-
     private PaymentType previousYearPaymentType;
-
-    public PaymentType getPreviousYearPaymentType() {
-        return previousYearPaymentType;
-    }
-
-    public void setPreviousYearPaymentType(PaymentType previousYearPaymentType) {
-        this.previousYearPaymentType = previousYearPaymentType;
-    }
 
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -69,6 +38,22 @@ public class Registration {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public void setAddition(String addition) {
+        this.addition = addition;
     }
 
     public String getPostalCode() {
@@ -109,5 +94,13 @@ public class Registration {
 
     public void setPreviousYearAmount(Double previousYearAmount) {
         this.previousYearAmount = previousYearAmount;
+    }
+
+    public PaymentType getPreviousYearPaymentType() {
+        return previousYearPaymentType;
+    }
+
+    public void setPreviousYearPaymentType(PaymentType previousYearPaymentType) {
+        this.previousYearPaymentType = previousYearPaymentType;
     }
 }
