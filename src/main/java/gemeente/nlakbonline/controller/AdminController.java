@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class AdminController {
@@ -105,8 +106,12 @@ public class AdminController {
         }
 
         model.put("page", createOverviewPage(year));
-        model.put("donations", this.akbService.retrieveAkbDonations(year));
-        model.put("registrations", this.registrationService.retrieveAllRegistrationsMap());
+
+        final Map<UUID, Account> registrations = this.registrationService.retrieveAllRegistrationsMap();
+        final List<AkbDonation> donations = this.akbService.retrieveAkbDonations(year);
+        donations.sort(new AkbDonationComparator(registrations));
+        model.put("donations", donations);
+        model.put("registrations", registrations);
         accountService.getAccountInformation().ifPresent(account -> {
             model.put("account", account);
         });

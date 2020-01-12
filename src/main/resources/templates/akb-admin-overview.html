@@ -14,6 +14,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" class="text-right">Jaar</th>
+                        <th scope="col" class="text-right">Registratie #</th>
                         <th scope="col">Naam</th>
                         <th scope="col" class="text-right">Toezegging (EUR)</th>
                         <th scope="col">Betaalmethode</th>
@@ -24,6 +25,7 @@
                     <th:block th:each="donation : ${donations}">
                         <tr>
                             <td scope="row" th:text="${donation.id.year}" class="text-right"></td>
+                            <td scope="row" th:text="${registrations.get(donation.id.accountId).registrationReferenceId}" class="text-right"></td>
                             <td scope="row" th:text="${registrations.get(donation.id.accountId).fullName}"></td>
                             <td scope="row"
                                 th:text="${#numbers.formatDecimal(donation.amount, 1, 'POINT', 2, 'COMMA')}" class="text-right"></td>
