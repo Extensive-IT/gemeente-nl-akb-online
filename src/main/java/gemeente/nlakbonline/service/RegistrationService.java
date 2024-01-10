@@ -43,6 +43,24 @@ public class RegistrationService {
         return Optional.ofNullable(result.getBody().getAccount());
     }
 
+    public Optional<Account> upsert(final Registration registration) {
+        final String uri = createAccountServiceUri("import");
+        final AccountCreationRequest request = new AccountCreationRequest();
+        request.setRegistrationReferenceId(registration.getRegistrationNumber());
+        request.setEmailAddress(registration.getEmail());
+        request.setFullName(registration.getSalutation());
+
+        final Address address = new Address();
+        address.setStreet(registration.getStreet());
+        address.setPostalCode(registration.getPostalCode());
+        address.setCity(registration.getCity());
+        address.setCountry(registration.getCountry());
+        request.setAddress(address);
+
+        final ResponseEntity<AccountInformationResponse> result = restOperations.postForEntity(uri, request, AccountInformationResponse.class);
+        return Optional.ofNullable(result.getBody().getAccount());
+    }
+
     /**
      * Retrieve all account registrations available
      *

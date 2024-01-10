@@ -78,7 +78,7 @@ public class AdminController {
         try (InputStream inputStream = registrations.getFile().getInputStream()) {
             List<ImportRegistrationsRecord> records = loadObjectList(ImportRegistrationsRecord.class, inputStream);
             records.forEach(registrationRecord -> {
-                final Optional<Account> account = this.registrationService.register(extractRegistration(registrationRecord));
+                final Optional<Account> account = this.registrationService.upsert(extractRegistration(registrationRecord));
                 account.ifPresent(createdAccount -> {
                     if (registrationRecord.getPreviousYearAmount() != null) {
                         final List<AkbDonation> existingDonations = this.akbService.retrieveAkbDonations(createdAccount.getId().toString(), collectionYear - 1);
